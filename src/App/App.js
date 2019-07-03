@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+  BrowserRouter, Redirect, Route, Switch,
+} from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -11,6 +14,24 @@ import './App.scss';
 import fbConnection from '../helpers/data/connection';
 
 fbConnection();
+
+const PublicRoute = ({ component: Component, authed, ...rest }) => {
+  const routeChecker = props => (authed === false
+    ? (<Component {...props} />)
+    : (
+      (<Redirect to={{ pathname: '/home', state: { from: props.location } }} />))
+  );
+  return <Route {...rest} render={props => routeChecker(props)} />;
+};
+
+const PrivateRoute = ({ component: Component, authed, ...rest }) => {
+  const routeChecker = props => (authed === true
+    ? (<Component {...props} />)
+    : (
+      (<Redirect to={{ pathname: '/auth', state: { from: props.location } }} />))
+  );
+  return <Route {...rest} render={props => routeChecker(props)} />;
+};
 
 class App extends React.Component {
   state = {
@@ -31,20 +52,25 @@ class App extends React.Component {
     this.removeListener();
   }
 
-
   render() {
     const { authed } = this.state;
-    const loadComponent = () => {
-      if (authed) {
-        return <Home />;
-      }
-      return <Auth />;
-    };
 
     return (
       <div className="App">
-        <Navbar authed={authed}/>
-        {loadComponent()}
+        <BrowserRouter>
+          <React.Fragment>
+            <Navbar authed={authed} />
+            <div className="container">
+              <div className="row">
+                <Switch>
+                  <PublicRoute path="/auth" component={Auth} authed={authed} />
+                  <PrivateRoute path="/home" component={Home} authed={authed} />
+                  <Redirect from="*" to="/auth" />
+                </Switch>
+              </div>
+            </div>
+          </React.Fragment>
+        </BrowserRouter>
       </div>
     );
   }
