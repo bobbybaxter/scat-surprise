@@ -5,7 +5,7 @@ import {
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import Navbar from '../components/MyNavbar/MyNavbar';
+import MyNavbar from '../components/MyNavbar/MyNavbar';
 import Auth from '../components/Auth/Auth';
 import Home from '../components/Home/Home';
 import EditScat from '../components/EditScat/EditScat';
@@ -62,7 +62,7 @@ class App extends React.Component {
       <div className="App">
         <BrowserRouter>
           <React.Fragment>
-            <Navbar authed={authed} />
+            <MyNavbar authed={authed} />
             <div className="container">
               <div className="row">
                 <Switch>
