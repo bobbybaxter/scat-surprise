@@ -20,7 +20,7 @@ class ScatCard extends React.Component {
     const { scat } = this.props;
     const singleLink = `/scat/${scat.id}`;
     return (
-      <div className="ScatCard col-4">
+      <div className="ScatCard col-4 mb-3">
         <div className="card border-0 shadow">
           <div className="card-body">
             <h5 className="card-title">{scat.sampleName}</h5>

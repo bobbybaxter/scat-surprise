@@ -53,7 +53,7 @@ class Home extends React.Component {
           {/* or this */}
           {/* <Link to={singleLink}>View Single</Link> */}
         </div>
-        <div className="d-flex flex-row container justify-content-around mt-5">
+        <div className="d-flex flex-row flex-wrap container justify-content-around mt-5">
           {makeScatCards}
         </div>
       </div>
